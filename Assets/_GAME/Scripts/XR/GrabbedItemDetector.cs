@@ -10,44 +10,48 @@ using UnityEngine.Events;
 public class GrabbedItemDetector : MonoBehaviour
 {
     [SerializeField]
-    private XRDirectInteractor interactor = null;
+    private List<Transform> detectTargets = new List<Transform>();
 
-    [SerializeField]
-    private List<Collider> detectTargets = new List<Collider>();
+    [field: SerializeField]
+    public UnityEvent<Transform> OnTargetDetected { get; private set; } = new UnityEvent<Transform>();
+    [field: SerializeField]
+    public UnityEvent<Transform> OnTargetLost { get; private set; } = new UnityEvent<Transform>();
 
-    public UnityEvent OnTargetDetected { get; private set; } = new UnityEvent();
+    private Transform trackedItem = null;
 
     // Start is called before the first frame update
     void Start()
     {
-        interactor = interactor == null ? GetComponentInParent<XRDirectInteractor>() : interactor;
+
     }
-    
 
-    void FixedUpdate()
+    public void OnSelectEnter(SelectEnterEventArgs args)
     {
-        if (interactor == null)
-            return;
-
-        if (interactor.hasSelection)
+        if (args.interactableObject != null)
         {
-            Debug.Log("HAND HAS INTERACTOR: " + interactor.firstInteractableSelected.transform.name);
-            //List<IXRSelectInteractable> interactables = interactor.interactablesSelected;
-            
-            ////Only check first as there should only ever be 1 per hand
-            //if (interactables.Count != 0)
-            //{
-            //    Debug.Log("Interactables Count = " + interactables.Count);
-            //    foreach (Collider collider in interactables[0].colliders)
-            //    {
-            //        if (detectTargets.Contains(collider))
-            //        {
-            //            OnTargetDetected?.Invoke();
-
-            //            break;
-            //        }
-            //    }
-            //}
+            if (detectTargets.Contains(args.interactableObject.transform)) //Item Detected
+            {
+                trackedItem = args.interactableObject.transform;
+                OnTargetDetected?.Invoke(trackedItem);
+            }
         }
+    }
+
+    public void OnSelectExit(SelectExitEventArgs args)
+    {
+        if (args.interactableObject != null)
+        {
+            if (args.interactableObject.transform == trackedItem) //Item Lost
+            {
+                OnTargetLost?.Invoke(trackedItem);
+                trackedItem = null;
+            }
+        }
+    }
+
+    [ContextMenu("Falsify")]
+    private void Falsify()
+    {
+        OnTargetDetected?.Invoke(trackedItem);
     }
 }
