@@ -22,6 +22,8 @@ public abstract class PhysicalTaskObserver : TaskObserver
     [SerializeField]
     protected List<Collider> expectedColliders = new List<Collider>();
     [SerializeField]
+    protected List<int> expectedItemIDs = new List<int>();
+    [SerializeField]
     protected List<GameObject> disableOnCompletionSuccess = new List<GameObject>();
 
     protected abstract void OnEnter(Collider collider);
@@ -35,6 +37,19 @@ public abstract class PhysicalTaskObserver : TaskObserver
     protected virtual bool IsExpectedCollider(Collider collider)
     {
         return expectedColliders.Contains(collider);
+    }
+
+    protected virtual bool IsExpectedItem(Item item)
+    {
+        if (item == null)
+            return false;
+
+        return expectedItemIDs.Contains(item.ID);
+    }
+
+    protected virtual bool IsExpectedAny(Collider collider)
+    {
+        return IsExpectedCollider(collider) || IsExpectedObject(collider.gameObject) || IsExpectedItem(collider.GetComponent<Item>());
     }
 
     protected virtual void TaskObserved()

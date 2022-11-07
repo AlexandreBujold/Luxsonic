@@ -7,11 +7,16 @@ using UnityEngine;
 /// </summary>
 public class ObjectToggler : MonoBehaviour
 {
+    //[SerializeField, Tooltip("Cancels a delayed toggle if a call to undo that is received during the coroutine.")]
+    //private bool cancelDelayOnOppositeCall = true; 
     [SerializeField]
     private List<GameObject> enableOnCall = new List<GameObject>();
 
     [SerializeField]
     private List<GameObject> disableOnCall = new List<GameObject>();
+
+    //private Coroutine delayedEnableCoroutine = null;
+    //private Coroutine delayedDisableCoroutine = null;
 
     public void EnableImmediately()
     {

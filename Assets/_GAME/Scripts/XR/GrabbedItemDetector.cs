@@ -5,34 +5,55 @@ using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.Events;
 
 /// <summary>
-/// Detects specified objects in hand and invokes events. 
+/// Detects specified items in hand and invokes events. 
 /// </summary>
 public class GrabbedItemDetector : MonoBehaviour
 {
     [SerializeField]
-    private List<Transform> detectTargets = new List<Transform>();
+    private List<int> targetItemIDs = new List<int>();
 
     [field: SerializeField]
-    public UnityEvent<Transform> OnTargetDetected { get; private set; } = new UnityEvent<Transform>();
+    public UnityEvent<Item> OnTargetDetected { get; private set; } = new UnityEvent<Item>();
     [field: SerializeField]
-    public UnityEvent<Transform> OnTargetLost { get; private set; } = new UnityEvent<Transform>();
+    public UnityEvent<Item> OnTargetLost { get; private set; } = new UnityEvent<Item>();
 
-    private Transform trackedItem = null;
+    [SerializeField, Tooltip("The interactors to listen to for select events")]
+    private List<XRBaseInteractor> interactors = new List<XRBaseInteractor>();
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
+        foreach (XRBaseInteractor interactor in interactors)
+        {
+            if (interactor != null)
+            {
+                interactor.selectEntered.AddListener(OnSelectEnter);
+                interactor.selectExited.AddListener(OnSelectExit);
+            }
+        }
+    }
 
+    private void OnDisable()
+    {
+        foreach (XRBaseInteractor interactor in interactors)
+        {
+            if (interactor != null)
+            {
+                interactor.selectEntered.RemoveListener(OnSelectEnter);
+                interactor.selectExited.RemoveListener(OnSelectExit);
+            }
+        }
     }
 
     public void OnSelectEnter(SelectEnterEventArgs args)
     {
         if (args.interactableObject != null)
         {
-            if (detectTargets.Contains(args.interactableObject.transform)) //Item Detected
+            if (args.interactableObject.transform.TryGetComponent<Item>(out Item target)) //Item Detected
             {
-                trackedItem = args.interactableObject.transform;
-                OnTargetDetected?.Invoke(trackedItem);
+                if (targetItemIDs.Contains(target.ID))
+                {
+                    OnTargetDetected?.Invoke(target);
+                }
             }
         }
     }
@@ -41,17 +62,7 @@ public class GrabbedItemDetector : MonoBehaviour
     {
         if (args.interactableObject != null)
         {
-            if (args.interactableObject.transform == trackedItem) //Item Lost
-            {
-                OnTargetLost?.Invoke(trackedItem);
-                trackedItem = null;
-            }
+            OnTargetLost?.Invoke(args.interactableObject.transform.GetComponent<Item>());
         }
-    }
-
-    [ContextMenu("Falsify")]
-    private void Falsify()
-    {
-        OnTargetDetected?.Invoke(trackedItem);
     }
 }

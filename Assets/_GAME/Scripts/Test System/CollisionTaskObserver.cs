@@ -12,9 +12,9 @@ public class CollisionTaskObserver : PhysicalTaskObserver
         if (observeOnEnter == false)
             return;
 
-        if (IsExpectedCollider(collider) || IsExpectedObject(collider.gameObject))
+        if (IsExpectedAny(collider))
         {
-            Debug.Log(observationType.ToString() + " OnEnter!");
+            //Debug.Log(observationType.ToString() + " OnEnter!");
             TaskObserved();
         }
     }
@@ -24,9 +24,9 @@ public class CollisionTaskObserver : PhysicalTaskObserver
         if (observeOnExit == false)
             return;
 
-        if (IsExpectedCollider(collider) || IsExpectedObject(collider.gameObject))
+        if (IsExpectedAny(collider))
         {
-            Debug.Log(observationType.ToString() + " OnExit!");
+            //Debug.Log(observationType.ToString() + " OnExit!");
             TaskObserved();
         }
     }

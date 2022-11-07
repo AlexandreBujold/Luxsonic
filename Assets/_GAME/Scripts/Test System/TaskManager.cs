@@ -18,6 +18,9 @@ public class TaskManager : MonoBehaviour
     public UnityEvent<int> OnTaskCompleted { get; private set; } = new UnityEvent<int>();
     public UnityEvent<int> OnTaskFailed { get; private set; } = new UnityEvent<int>();
 
+    [SerializeField]
+    private List<TaskReactor> taskReactors = new List<TaskReactor>();
+
     //Used to track metrics for each task
     private Dictionary<Task, TaskMetrics> TaskTracking = new Dictionary<Task, TaskMetrics>();
     private Task CurrentTask => tasks[currentTask];
@@ -26,6 +29,16 @@ public class TaskManager : MonoBehaviour
     private void Awake()
     {
         Instance = Instance == null ? this : Instance;
+
+        //Get any missing child reactors
+        foreach (Transform child in transform)
+        {
+            if (child.TryGetComponent<TaskReactor>(out TaskReactor reactor))
+            {
+                if (taskReactors.Contains(reactor) == false)
+                    taskReactors.Add(reactor);
+            }
+        }
     }
 
     private void Start()
@@ -62,12 +75,14 @@ public class TaskManager : MonoBehaviour
         {
             Debug.Log("Correct Task Attempted!");
             Instance.TaskTracking[Instance.CurrentTask].Attempts += 1;
+            Instance.taskReactors.ForEach(reactor => reactor.OnCorrectTaskAttempted(Instance.currentTask));
         }
         else //Incorrect task attempted
         {
             //Uncomment line below if attempts should be added for the incorrect task
             //Instance.TaskTracking[GetTask(taskIndex)].Attempts += 1;
             Instance.TaskTracking[Instance.CurrentTask].IncorrectAttempts += 1;
+            Instance.taskReactors.ForEach(reactor => reactor.OnIncorrectTaskAttempted(Instance.currentTask));
             Debug.Log("Incorrect Task Attempted!");
         }
     }
@@ -84,11 +99,13 @@ public class TaskManager : MonoBehaviour
         if (Instance.currentTask == taskIndex)
         {
             Instance.CompleteCurrentTask();
+            Instance.taskReactors.ForEach(reactor => reactor.OnCorrectTaskCompleted(Instance.currentTask - 1));
             return true;
         }
         else //Failed
         {
             Instance.IncorrectTaskAttempted(taskIndex);
+            Instance.taskReactors.ForEach(reactor => reactor.OnIncorrectTaskCompleted(Instance.currentTask));
             return false;
         }
     }

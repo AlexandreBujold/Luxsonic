@@ -16,10 +16,10 @@ MonoBehaviour:
   - TaskName: Put On Gloves
     Description: Take a pair of gloves from the box, and put them on by dropping
       them on your free hand.
-  - TaskName: Assemble The Needle
-    Description: Grab the vial in one hand, and the syringe in the other. Combine
-      the two by attaching the syringe to the tip of the vial.
-  - TaskName: Disassemble The Needle
+  - TaskName: Fill The Syringe
+    Description: Grab the vial in one hand, and the syringe in the other. Attach
+      the syringe to the top of the vial.
+  - TaskName: Remove the Syringe
     Description: Grab the syringe and pull it off the vial.
   - TaskName: Administer The Medicine
     Description: Assemble the needle once more, and administer the medicine to the
