@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Listens for collision events to observe a task related event.
+/// Listens for trigger events to observe a task related event.
 /// </summary>
 public class TriggerTaskObserver : PhysicalTaskObserver
 {
