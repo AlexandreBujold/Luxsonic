@@ -14,4 +14,18 @@ public class TaskMetrics
     public int IncorrectAttempts = 0;
     [Tooltip("Time from end of previous task to completion of this task")]
     public float TimeToComplete = 0;
+
+    public TaskMetrics()
+    {
+        Attempts = 0;
+        IncorrectAttempts = 0;
+        TimeToComplete = 0;
+    }
+
+    public TaskMetrics(int attempts, int incorrectAttempts, float timeToComplete)
+    {
+        Attempts = attempts;
+        IncorrectAttempts = incorrectAttempts;
+        TimeToComplete = timeToComplete;
+    }
 }

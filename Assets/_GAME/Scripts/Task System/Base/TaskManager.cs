@@ -28,6 +28,11 @@ public class TaskManager : MonoBehaviour
 
     private bool TasksComplete => currentTask == tasks.Count;
 
+    /*
+     * Attempted: player interacted close to the task but did not complete it
+     * Completed: player interacted with a task and completed it
+     */
+
     private void Awake()
     {
         Instance = Instance == null ? this : Instance;
@@ -65,11 +70,6 @@ public class TaskManager : MonoBehaviour
         }
     }
 
-    /*
-     * Attempted: means the task was attempted but was not completed for whatever reason
-     * Incorrect: means a task was completed, but was the incorrect task so was not considered
-     * Completed: means a task was completed, and was the correct one
-     */
 
     /// <summary>
     /// Tells the manager that the task was attempted.
@@ -118,13 +118,6 @@ public class TaskManager : MonoBehaviour
         }
     }
 
-    private static Task GetTask(int index)
-    {
-        if (index < Instance.tasks.Count)
-            return Instance.tasks[index];
-        return null;
-    }
-
     private void CompleteCurrentTask()
     {
         Debug.Log(string.Format("({0}) {1} has been completed!", currentTask, tasks[currentTask].TaskName));
@@ -146,5 +139,8 @@ public class TaskManager : MonoBehaviour
     private void CompleteScenario()
     {
         Debug.Log("Scenario is Complete!");
+
+        //Save
+        ScenarioMetricSaver.SaveData(Instance.TaskTracking, scenarioOverride);
     }
 }
