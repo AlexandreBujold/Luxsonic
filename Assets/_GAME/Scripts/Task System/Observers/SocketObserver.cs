@@ -23,6 +23,8 @@ public class SocketObserver : TaskObserver
     private bool triggerOnEnter = false;
     [SerializeField]
     private bool triggerOnExit = false;
+    [SerializeField]
+    private bool reportWrongItem = true;
 
     private void OnEnable()
     {
@@ -81,6 +83,10 @@ public class SocketObserver : TaskObserver
         {
             if (IsExpectedItem(itemTarget))
                 TaskObserved(actionType);
+            else if (reportWrongItem)
+            {
+                IncorrectAttempted();
+            }
         }
     }
 

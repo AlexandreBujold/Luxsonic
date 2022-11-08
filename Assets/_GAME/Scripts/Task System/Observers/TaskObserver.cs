@@ -34,4 +34,9 @@ public abstract class TaskObserver : MonoBehaviour
         TaskManager.SubmitTaskAttempted(taskIndex);
         OnAttempt?.Invoke();
     }
+
+    public virtual void IncorrectAttempted()
+    {
+        TaskManager.SubmitTaskAttempted(99); //Forces an incorrect attempt
+    }
 }

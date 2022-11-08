@@ -11,12 +11,8 @@ public class TaskManager : MonoBehaviour
     private List<Task> tasks = new List<Task>();
     [SerializeField, Tooltip("Overrides the task list of this manager.")]
     private Scenario scenarioOverride = null;
-
     [SerializeField, Range(0, 10)]
     private int currentTask = 0;
-
-    public UnityEvent<int> OnTaskCompleted { get; private set; } = new UnityEvent<int>();
-    public UnityEvent<int> OnTaskFailed { get; private set; } = new UnityEvent<int>();
 
     [SerializeField]
     private List<TaskReactor> taskReactors = new List<TaskReactor>();
@@ -87,8 +83,8 @@ public class TaskManager : MonoBehaviour
         }
         else //Incorrect task attempted
         {
-            //Uncomment line below if attempts should be added for the incorrect task
-            //Instance.TaskTracking[GetTask(taskIndex)].Attempts += 1;
+            //Uncomment line below if attempts should be added for the incorrect task that was attempted
+            Instance.TaskTracking[Instance.tasks[taskIndex]].Attempts += 1;
             Instance.TaskTracking[Instance.CurrentTask].IncorrectAttempts += 1;
             Instance.taskReactors.ForEach(reactor => reactor.OnIncorrectTaskAttempted(Instance.currentTask));
             Debug.LogFormat("Incorrect Task ({0}) Attempted!", taskIndex);
@@ -107,13 +103,11 @@ public class TaskManager : MonoBehaviour
         if (Instance.currentTask == taskIndex)
         {
             Instance.CompleteCurrentTask();
-            Instance.taskReactors.ForEach(reactor => reactor.OnCorrectTaskCompleted(Instance.currentTask - 1));
             return true;
         }
         else //Failed
         {
             Instance.IncorrectTaskAttempted(taskIndex);
-            Instance.taskReactors.ForEach(reactor => reactor.OnIncorrectTaskCompleted(Instance.currentTask));
             return false;
         }
     }
@@ -121,10 +115,11 @@ public class TaskManager : MonoBehaviour
     private void CompleteCurrentTask()
     {
         Debug.Log(string.Format("({0}) {1} has been completed!", currentTask, tasks[currentTask].TaskName));
-        OnTaskCompleted?.Invoke(currentTask);
         TaskTracking[CurrentTask].TimeToComplete = Time.time - timeTaskStarted;
         currentTask = Mathf.Clamp(currentTask + 1, 0, tasks.Count);
         timeTaskStarted = Time.time;
+
+        Instance.taskReactors.ForEach(reactor => reactor.OnCorrectTaskCompleted(Instance.currentTask - 1));
 
         if (TasksComplete)
             CompleteScenario();
@@ -132,8 +127,8 @@ public class TaskManager : MonoBehaviour
 
     private void IncorrectTaskAttempted(int taskIndex)
     {
-        Debug.LogError(string.Format("Incorrect Task ({0}) was attempted instead of {1}!", taskIndex, currentTask));
-        OnTaskFailed?.Invoke(currentTask);
+        Debug.LogWarning(string.Format("Incorrect Task ({0}) was attempted instead of {1}!", taskIndex, currentTask));
+        Instance.taskReactors.ForEach(reactor => reactor.OnIncorrectTaskCompleted(Instance.currentTask));
     }
 
     private void CompleteScenario()
@@ -141,7 +136,7 @@ public class TaskManager : MonoBehaviour
         Debug.Log("Scenario is Complete!");
 
         //Save
-        ScenarioMetricSaver.SaveData(Instance.TaskTracking, scenarioOverride);
+        ScenarioSaveDataSerializer.SaveData(Instance.TaskTracking, scenarioOverride);
 
         taskReactors.ForEach(reactor => reactor.OnScenarioComplete());
     }

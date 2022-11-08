@@ -44,7 +44,7 @@ public class PastTrainingUIController : MonoBehaviour
     public void UpdateUI()
     {
         //Load Save Data
-        List<ScenarioSaveData> saveData = ScenarioMetricSaver.LoadMultipleSaveData(3);
+        List<ScenarioSaveData> saveData = ScenarioSaveDataSerializer.LoadMultipleSaveData(3);
 
         for (int i = 0; i < summaryUI.Count; i++)
         {
@@ -55,7 +55,7 @@ public class PastTrainingUIController : MonoBehaviour
             }
 
             summaryUI[i].scenarioName.SetText(saveData[i].ScenarioName);
-            summaryUI[i].durationValue.SetText(saveData[i].TotalDuration.ToString() + "s");
+            summaryUI[i].durationValue.SetText(saveData[i].TotalDuration.ToString("F1") + "s");
             summaryUI[i].attemptCount.SetText(saveData[i].TotalIncorrectAttempts.ToString());
             summaryUI[i].gameObject.SetActive(true);
         }

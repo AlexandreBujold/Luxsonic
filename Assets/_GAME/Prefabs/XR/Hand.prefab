@@ -122,8 +122,8 @@ MonoBehaviour:
   m_SelectActionTrigger: 1
   m_HideControllerOnSelect: 1
   m_AllowHoveredActivate: 0
-  m_PlayAudioClipOnSelectEntered: 0
-  m_AudioClipForOnSelectEntered: {fileID: 0}
+  m_PlayAudioClipOnSelectEntered: 1
+  m_AudioClipForOnSelectEntered: {fileID: 8300000, guid: 206b20c6d8eae644fa10c512833e8468, type: 3}
   m_PlayAudioClipOnSelectExited: 0
   m_AudioClipForOnSelectExited: {fileID: 0}
   m_PlayAudioClipOnSelectCanceled: 0
@@ -134,12 +134,12 @@ MonoBehaviour:
   m_AudioClipForOnHoverExited: {fileID: 0}
   m_PlayAudioClipOnHoverCanceled: 0
   m_AudioClipForOnHoverCanceled: {fileID: 0}
-  m_PlayHapticsOnSelectEntered: 0
-  m_HapticSelectEnterIntensity: 0
-  m_HapticSelectEnterDuration: 0
-  m_PlayHapticsOnSelectExited: 0
-  m_HapticSelectExitIntensity: 0
-  m_HapticSelectExitDuration: 0
+  m_PlayHapticsOnSelectEntered: 1
+  m_HapticSelectEnterIntensity: 0.3
+  m_HapticSelectEnterDuration: 0.2
+  m_PlayHapticsOnSelectExited: 1
+  m_HapticSelectExitIntensity: 0.1
+  m_HapticSelectExitDuration: 0.1
   m_PlayHapticsOnSelectCanceled: 0
   m_HapticSelectCancelIntensity: 0
   m_HapticSelectCancelDuration: 0
@@ -605,6 +605,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca7f74171d4aed145b910e2a1ebad9ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characteristics: 0
   handAnimator: {fileID: 0}
 --- !u!1001 &3173792541514138341
 PrefabInstance:
@@ -627,6 +628,38 @@ PrefabInstance:
       objectReference: {fileID: 357412389956283927}
     - target: {fileID: 4262441431841417450, guid: df397e3a8112b884da107b50489b3d29, type: 3}
       propertyPath: m_HideControllerOnSelect
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4262441431841417450, guid: df397e3a8112b884da107b50489b3d29, type: 3}
+      propertyPath: m_HapticSelectExitDuration
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4262441431841417450, guid: df397e3a8112b884da107b50489b3d29, type: 3}
+      propertyPath: m_HapticSelectEnterDuration
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4262441431841417450, guid: df397e3a8112b884da107b50489b3d29, type: 3}
+      propertyPath: m_HapticSelectExitIntensity
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4262441431841417450, guid: df397e3a8112b884da107b50489b3d29, type: 3}
+      propertyPath: m_PlayHapticsOnSelectExited
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4262441431841417450, guid: df397e3a8112b884da107b50489b3d29, type: 3}
+      propertyPath: m_HapticSelectEnterIntensity
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4262441431841417450, guid: df397e3a8112b884da107b50489b3d29, type: 3}
+      propertyPath: m_PlayHapticsOnSelectEntered
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4262441431841417450, guid: df397e3a8112b884da107b50489b3d29, type: 3}
+      propertyPath: m_AudioClipForOnSelectEntered
+      value: 
+      objectReference: {fileID: 8300000, guid: 206b20c6d8eae644fa10c512833e8468, type: 3}
+    - target: {fileID: 4262441431841417450, guid: df397e3a8112b884da107b50489b3d29, type: 3}
+      propertyPath: m_PlayAudioClipOnSelectEntered
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4262441431841417450, guid: df397e3a8112b884da107b50489b3d29, type: 3}

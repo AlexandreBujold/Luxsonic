@@ -55,12 +55,12 @@ public class ScenarioPanelController : MonoBehaviour
     public void UpdateUI()
     {
         //Load Latest Run
-        ScenarioSaveData save = ScenarioMetricSaver.LoadLatestSaveData();
+        ScenarioSaveData save = ScenarioSaveDataSerializer.LoadLatestSaveData();
 
         if (save != null)
         {
             scenarioTitle.SetText(save.ScenarioName);
-            durationValue.SetText(save.TotalDuration.ToString() + "s");
+            durationValue.SetText(save.TotalDuration.ToString("F2") + "s");
             totalAttemptsValue.SetText(save.TotalIncorrectAttempts.ToString());
 
             for (int i = 0; i < taskInfos.Count; i++)
@@ -68,7 +68,7 @@ public class ScenarioPanelController : MonoBehaviour
                 TaskMetricPair pair = save.TaskMetrics[i];
                 taskInfos[i].taskName.SetText(pair.Task.TaskName);
                 taskInfos[i].taskNumber.SetText((i + 1).ToString());
-                taskInfos[i].completionTime.SetText(pair.Metrics.TimeToComplete.ToString() + "s");
+                taskInfos[i].completionTime.SetText(pair.Metrics.TimeToComplete.ToString("F2") + "s");
                 taskInfos[i].attemptCount.SetText(pair.Metrics.IncorrectAttempts.ToString());
             }
         }

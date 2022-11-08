@@ -3,7 +3,7 @@ using UnityEngine;
 using System.IO;
 using System.Linq;
 
-public static class ScenarioMetricSaver
+public static class ScenarioSaveDataSerializer
 {
     private static readonly string FilePath = Application.persistentDataPath + "/LuxsonicSaves";
 
