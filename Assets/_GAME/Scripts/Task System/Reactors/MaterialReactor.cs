@@ -33,12 +33,17 @@ public class RendererMaterialSwapConfig
 
         public void Apply(Renderer renderer)
         {
-            if (renderer == null)
+            if (renderer == null || material == null)
+            {
+                Debug.LogWarning("Missing Renderer or Material for MaterialIndexMap.");
                 return;
+            }
 
             if (index < renderer.materials.Length)
             {
-                renderer.materials[index] = material;
+                Material[] newMaterials = renderer.materials;
+                newMaterials[index] = material;
+                renderer.materials = newMaterials;
             }
         }
     }

@@ -234,8 +234,9 @@ MonoBehaviour:
   observeOnExit: 0
   expectedGameObjects: []
   expectedColliders: []
-  expectedItemIDs: 
+  expectedItemIDs: 00000000
   disableOnCompletionSuccess: []
+  disableObservedCollider: 1
 --- !u!1 &1775444950517090662
 GameObject:
   m_ObjectHideFlags: 0
@@ -292,8 +293,8 @@ Transform:
   m_GameObject: {fileID: 3647419520104724588}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 441468693749293441}
   - {fileID: 4337913640190361584}
@@ -503,8 +504,9 @@ MonoBehaviour:
   observeOnExit: 1
   expectedGameObjects: []
   expectedColliders: []
-  expectedItemIDs: 
+  expectedItemIDs: 00000000
   disableOnCompletionSuccess: []
+  disableObservedCollider: 0
 --- !u!1 &6710314688550642678
 GameObject:
   m_ObjectHideFlags: 0

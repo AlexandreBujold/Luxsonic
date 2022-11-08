@@ -25,6 +25,10 @@ public abstract class PhysicalTaskObserver : TaskObserver
     protected List<int> expectedItemIDs = new List<int>();
     [SerializeField]
     protected List<GameObject> disableOnCompletionSuccess = new List<GameObject>();
+    [SerializeField]
+    protected bool disableObservedCollider = false;
+
+    protected Collider lastCollider = null; //For optional disabling by child classes
 
     protected abstract void OnEnter(Collider collider);
     protected abstract void OnExit(Collider collider);
@@ -67,6 +71,11 @@ public abstract class PhysicalTaskObserver : TaskObserver
             case TaskActionType.Completion:
                 TaskCompleted();
                 break;
+        }
+
+        if (disableObservedCollider && lastCollider != null)
+        {
+            lastCollider.gameObject.SetActive(false);
         }
     }
 

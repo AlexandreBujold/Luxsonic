@@ -48,7 +48,7 @@ public class SocketObserver : TaskObserver
 
     private void OnSelectEnter(SelectEnterEventArgs args)
     {
-        if (triggerOnEnter)
+        if (triggerOnEnter == false)
             return;
 
         if (args.interactableObject != null)
@@ -59,7 +59,7 @@ public class SocketObserver : TaskObserver
 
     private void OnSelectExit(SelectExitEventArgs args)
     {
-        if (triggerOnExit)
+        if (triggerOnExit == false)
             return;
 
         if (args.interactableObject != null)

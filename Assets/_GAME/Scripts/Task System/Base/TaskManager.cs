@@ -26,6 +26,8 @@ public class TaskManager : MonoBehaviour
     private Task CurrentTask => tasks[currentTask];
     private float timeTaskStarted = 0;
 
+    private bool TasksComplete => currentTask == tasks.Count;
+
     private void Awake()
     {
         Instance = Instance == null ? this : Instance;
@@ -74,7 +76,7 @@ public class TaskManager : MonoBehaviour
     /// </summary>
     public static void SubmitTaskAttempted(int taskIndex)
     {
-        if (Instance == null)
+        if (Instance == null || Instance.TasksComplete)
             return;
 
         if (Instance.currentTask == taskIndex) //Correct task attempted
@@ -89,7 +91,7 @@ public class TaskManager : MonoBehaviour
             //Instance.TaskTracking[GetTask(taskIndex)].Attempts += 1;
             Instance.TaskTracking[Instance.CurrentTask].IncorrectAttempts += 1;
             Instance.taskReactors.ForEach(reactor => reactor.OnIncorrectTaskAttempted(Instance.currentTask));
-            Debug.Log("Incorrect Task Attempted!");
+            Debug.LogFormat("Incorrect Task ({0}) Attempted!", taskIndex);
         }
     }
 
@@ -98,7 +100,7 @@ public class TaskManager : MonoBehaviour
     /// </summary>
     public static bool SubmitTaskCompleted(int taskIndex)
     {
-        if (Instance == null)
+        if (Instance == null || Instance.TasksComplete)
             return false;
 
         //Successful
@@ -128,13 +130,21 @@ public class TaskManager : MonoBehaviour
         Debug.Log(string.Format("({0}) {1} has been completed!", currentTask, tasks[currentTask].TaskName));
         OnTaskCompleted?.Invoke(currentTask);
         TaskTracking[CurrentTask].TimeToComplete = Time.time - timeTaskStarted;
-        currentTask = Mathf.Clamp(currentTask + 1, 0, tasks.Count - 1);
+        currentTask = Mathf.Clamp(currentTask + 1, 0, tasks.Count);
         timeTaskStarted = Time.time;
+
+        if (TasksComplete)
+            CompleteScenario();
     }
 
     private void IncorrectTaskAttempted(int taskIndex)
     {
         Debug.LogError(string.Format("Incorrect Task ({0}) was attempted instead of {1}!", taskIndex, currentTask));
         OnTaskFailed?.Invoke(currentTask);
+    }
+
+    private void CompleteScenario()
+    {
+        Debug.Log("Scenario is Complete!");
     }
 }

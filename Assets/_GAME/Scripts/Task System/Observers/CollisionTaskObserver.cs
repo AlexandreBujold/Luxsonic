@@ -15,6 +15,7 @@ public class CollisionTaskObserver : PhysicalTaskObserver
         if (IsExpectedAny(collider))
         {
             //Debug.Log(observationType.ToString() + " OnEnter!");
+            lastCollider = collider;
             TaskObserved();
         }
     }
@@ -27,6 +28,7 @@ public class CollisionTaskObserver : PhysicalTaskObserver
         if (IsExpectedAny(collider))
         {
             //Debug.Log(observationType.ToString() + " OnExit!");
+            lastCollider = collider;
             TaskObserved();
         }
     }
