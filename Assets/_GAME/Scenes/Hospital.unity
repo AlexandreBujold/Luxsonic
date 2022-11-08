@@ -9099,19 +9099,7 @@ MonoBehaviour:
       m_Calls: []
   <OnCorrectCompleted>k__BackingField:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2087220198}
-        m_TargetAssemblyTypeName: PlayOneShot, Assembly-CSharp
-        m_MethodName: PlayOneshot
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 8300000, guid: d9abe27115dccf64e8666475ee2d6f3b, type: 3}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   <OnIncorrectCompleted>k__BackingField:
     m_PersistentCalls:
       m_Calls: []

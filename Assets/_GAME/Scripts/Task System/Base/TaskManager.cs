@@ -84,10 +84,9 @@ public class TaskManager : MonoBehaviour
         else //Incorrect task attempted
         {
             //Uncomment line below if attempts should be added for the incorrect task that was attempted
-            Instance.TaskTracking[Instance.tasks[taskIndex]].Attempts += 1;
+            //Instance.TaskTracking[Instance.tasks[taskIndex]].Attempts += 1;
             Instance.TaskTracking[Instance.CurrentTask].IncorrectAttempts += 1;
-            Instance.taskReactors.ForEach(reactor => reactor.OnIncorrectTaskAttempted(Instance.currentTask));
-            Debug.LogFormat("Incorrect Task ({0}) Attempted!", taskIndex);
+            Instance.IncorrectTaskAttempted(Instance.currentTask);
         }
     }
 
