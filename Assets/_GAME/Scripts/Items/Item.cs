@@ -10,5 +10,7 @@ public class Item : MonoBehaviour
     [field: SerializeField]
     public int ID { get; private set; } = 0;
 
+    public bool IsItemID(int itemID) => ID == itemID;
+
     public static bool IsItemID(Item item, int ID) => item.ID == ID;
 }

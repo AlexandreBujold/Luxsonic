@@ -3,20 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Holds lists of objects to enable or disable when called.
+/// Holds lists of objects to enable or disable when reacting.
 /// </summary>
-public class ObjectToggler : MonoBehaviour
+public class ToggleReactor : TaskReactor
 {
-    //[SerializeField, Tooltip("Cancels a delayed toggle if a call to undo that is received during the coroutine.")]
-    //private bool cancelDelayOnOppositeCall = true; 
+    [Header("Properties")]
+    [SerializeField]
+    private float enableDelay = 0f;
+    [SerializeField]
+    private float disableDelay = 0f;
+
+    [Space]
     [SerializeField]
     private List<GameObject> enableOnCall = new List<GameObject>();
 
     [SerializeField]
     private List<GameObject> disableOnCall = new List<GameObject>();
 
-    //private Coroutine delayedEnableCoroutine = null;
-    //private Coroutine delayedDisableCoroutine = null;
+    public override void OnCorrectTaskCompleted(int taskIndex)
+    {
+        if (taskTarget != taskIndex)
+            return;
+
+        EnableAfterDelay(enableDelay);
+        DisableAfterDelay(disableDelay);
+    }
 
     public void EnableImmediately()
     {
@@ -28,6 +39,15 @@ public class ObjectToggler : MonoBehaviour
 
     public void EnableAfterDelay(float delay)
     {
+        if (enableOnCall.Count == 0)
+            return;
+
+        if (enableDelay == 0)
+        {
+            EnableImmediately();
+            return;
+        }
+
         StartCoroutine(ToggleAfterDelay(delay, enableOnCall, true));
     }
 
@@ -41,6 +61,15 @@ public class ObjectToggler : MonoBehaviour
 
     public void DisableAfterDelay(float delay)
     {
+        if (disableOnCall.Count == 0)
+            return;
+
+        if (disableDelay == 0)
+        {
+            DisableImmediately();
+            return;
+        }
+
         StartCoroutine(ToggleAfterDelay(delay, disableOnCall, false));
     }
     

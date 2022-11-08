@@ -33,10 +33,16 @@ public class TaskManager : MonoBehaviour
         //Get any missing child reactors
         foreach (Transform child in transform)
         {
-            if (child.TryGetComponent<TaskReactor>(out TaskReactor reactor))
+            TaskReactor[] reactors = child.GetComponentsInChildren<TaskReactor>();
+            if (reactors.Length != 0)
             {
-                if (taskReactors.Contains(reactor) == false)
-                    taskReactors.Add(reactor);
+                for (int i = 0; i < reactors.Length; i++)
+                {
+                    if (taskReactors.Contains(reactors[i]) == false)
+                    {
+                        taskReactors.Add(reactors[i]); 
+                    }
+                }
             }
         }
     }
