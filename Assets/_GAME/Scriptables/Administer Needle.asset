@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8da47bb85c88cf4c88be1f907b4f8ad, type: 3}
   m_Name: Administer Needle
   m_EditorClassIdentifier: 
+  ScenarioName: Syringe Training
   Tasks:
   - TaskName: Put On Gloves
     Description: Take a pair of gloves from the box, and put them on by dropping
@@ -22,6 +23,5 @@ MonoBehaviour:
   - TaskName: Remove the Syringe
     Description: Grab the syringe and pull it off the vial.
   - TaskName: Administer The Medicine
-    Description: Assemble the needle once more, and administer the medicine to the
-      patient by pressing the needle into them at the right location, and pressing
-      the Trigger.
+    Description: With the syringe in hand, administer the medicine to the patient
+      by pressing the needle into them at the right location, and releasing it.

@@ -25,4 +25,9 @@ public abstract class TaskReactor : MonoBehaviour
     {
         return;
     }
+
+    public virtual void OnScenarioComplete()
+    {
+        return;
+    }
 }

@@ -13,6 +13,8 @@ public class EventReactor : TaskReactor
     public UnityEvent OnCorrectCompleted { get; private set; } = new UnityEvent();
     [field: SerializeField]
     public UnityEvent OnIncorrectCompleted { get; private set; } = new UnityEvent();
+    [field: SerializeField]
+    public UnityEvent OnScenarioCompleted { get; private set; } = new UnityEvent();
 
     public override void OnCorrectTaskAttempted(int taskIndex)
     {
@@ -32,5 +34,10 @@ public class EventReactor : TaskReactor
     public override void OnIncorrectTaskCompleted(int taskIndex)
     {
         OnIncorrectCompleted?.Invoke();
+    }
+
+    public override void OnScenarioComplete()
+    {
+        OnScenarioCompleted?.Invoke();
     }
 }

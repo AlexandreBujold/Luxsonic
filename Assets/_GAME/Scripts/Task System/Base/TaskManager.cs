@@ -142,5 +142,7 @@ public class TaskManager : MonoBehaviour
 
         //Save
         ScenarioMetricSaver.SaveData(Instance.TaskTracking, scenarioOverride);
+
+        taskReactors.ForEach(reactor => reactor.OnScenarioComplete());
     }
 }
